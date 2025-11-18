@@ -1,25 +1,25 @@
-import { GoogleGenAI, Chat, GenerateContentResponse, ChatCallbacks } from "@google/genai";
+import { GoogleGenAI, Chat, GenerateContentResponse } from "@google/genai";
 import { GEMINI_ASSISTANT_SYSTEM_INSTRUCTION_FLASH, GEMINI_ASSISTANT_SYSTEM_INSTRUCTION_PRO } from '../constants';
 
 const getGeminiClient = () => {
-  if (!process.env.API_KEY) {
-    throw new Error("API_KEY is not defined in environment variables.");
+  if (!process.env.REACT_APP_API_KEY) {
+    throw new Error("REACT_APP_API_KEY is not defined in environment variables.");
   }
-  return new GoogleGenAI({ apiKey: process.env.API_KEY });
+  return new GoogleGenAI({ apiKey: process.env.REACT_APP_API_KEY });
 };
 
 // Initializes a chat session for a specific model and system instruction
-export const createGeminiChat = (model: string, systemInstruction: string, callbacks?: ChatCallbacks): Chat => {
+// Chat callbacks are not supported for regular chat sessions, only for Live API.
+export const createGeminiChat = (model: string, systemInstruction: string): Chat => {
   const ai = getGeminiClient();
   return ai.chats.create({
     model: model,
     config: {
       systemInstruction: systemInstruction,
-      temperature: model === 'gemini-2.5-pro' ? 0.7 : 0.4, // Higher temperature for creative, lower for analytical
+      temperature: model === 'gemini-2.5-flash' ? 0.7 : 0.4, // Higher temperature for creative, lower for analytical
       topK: 40,
       topP: 0.95,
     },
-    callbacks: callbacks,
   });
 };
 

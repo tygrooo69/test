@@ -27,7 +27,8 @@ export const GeminiAssistant: React.FC = () => {
   const initializeChats = useCallback(() => {
     try {
       flashChatRef.current = createGeminiChat('gemini-2.5-flash', GEMINI_ASSISTANT_SYSTEM_INSTRUCTION_FLASH);
-      proChatRef.current = createGeminiChat('gemini-2.5-pro', GEMINI_ASSISTANT_SYSTEM_INSTRUCTION_PRO);
+      // Updated 'gemini-2.5-pro' to 'gemini-3-pro-preview' as per guidelines
+      proChatRef.current = createGeminiChat('gemini-3-pro-preview', GEMINI_ASSISTANT_SYSTEM_INSTRUCTION_PRO);
     } catch (e: any) {
       setError(e.message);
     }
